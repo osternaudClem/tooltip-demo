@@ -9,7 +9,7 @@ function tooltip(element){
     var content = el.dataset.tpContent;
     var position = el.dataset.tpPosition;
     var responsive = el.dataset.tpResponsive;
-    var url = el.dataset.tpUrl;
+    var fct = el.dataset.tpFct;
     var render = document.createElement('span');
 
     // Check tooltip position
@@ -18,13 +18,22 @@ function tooltip(element){
       position = 'bottom'
     }
 
-    // Add class name position
-    render.className = "tooltip-content tooltip-" + position;
-
-    // Check for asynchrone content
-    if(url){
-      render.innerHTML = httpGet(url, el, render);
+    // Check for asynchrone function
+    if(fct){
+      render.className = "tooltip-content tooltip-" + position + " tooltip-" + i;
+      var regFindArgs = /\(([^)]+)\)/;
+      // var regRemoveQuote = /'[^'']*'/g;
+      var fctArgs = regFindArgs.exec(fct)[1];
+      // fctArgs = regRemoveQuote.exec(fctArgs);
+      console.log(fctArgs);
+      
+      fct = fct.split('(');
+      fctName = fct[0];
+      
+      callPromise(i, fctName, fctArgs);            
     }else{
+      console.log('No fonction')
+      render.className = "tooltip-content tooltip-" + position;
       render.innerHTML = content;
     }
 
@@ -136,3 +145,18 @@ function checkPosition(el, position){
       break;
   }
 } 
+
+function callPromise(id, fctName, fctArgs){
+  promise = new Promise(function(resolve, reject) {
+    window.setTimeout(function(){
+      resolve(window[fctName](fctArgs));
+    }, 1000);
+  });
+
+  promise.then(function(result) {
+    tooltipElem = document.getElementsByClassName('tooltip-'+id);
+    tooltipElem[0].innerHTML = result;
+  }, function(err) {
+    console.log(err);
+  });
+}
