@@ -1,3 +1,6 @@
+## Demo
+[View the demo](http://demo.clementosternaud.com/tooltip/)
+
 ##How it work
 
 To add tooltip, add `.tooltip` on the element and call tooltip() function.
