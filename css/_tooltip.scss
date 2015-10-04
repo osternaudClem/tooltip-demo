@@ -1,0 +1,125 @@
+/*
+ * Tooltip module
+ */
+
+.tooltip{
+  position: relative;
+  display: inline-block;
+
+  &:hover{
+    .tooltip-content{
+      opacity: 1;
+    }
+  }
+}
+
+.tooltip-content{
+  background: #000;
+  border-radius: 5px;
+  padding: 10px;
+  line-height: 26px;
+  color: #fff;
+  position: absolute;
+  opacity: 0;
+  display: block;
+  pointer-events: none;
+  z-index: 10;
+  white-space:nowrap;
+  max-width:none;
+
+  &::before{
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    background: #000;
+  }
+
+  &.tooltip-bottom{
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%);
+
+    &::before{
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    &.tooltip-marge-left{
+      transform: translateY(100%);
+      left: 0;
+
+      &::before{
+        left: 10px;
+      }
+    }
+
+    &.tooltip-marge-right{
+      transform: translateY(100%);
+      left: initial;
+      right: 0;
+
+      &::before{
+        left: initial;
+        right: 10px;
+      }
+    }
+  }
+
+  &.tooltip-top{
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+
+    &::before{
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+
+    &.tooltip-marge-left{
+      transform: translateY(-100%);
+      left: 0;
+
+      &::before{
+        left: 10px;
+      }
+    }
+
+    &.tooltip-marge-right{
+      transform: translateY(-100%);
+      left: initial;
+      right: 0;
+
+      &::before{
+        left: initial;
+        right: 10px;
+      }
+    }
+  }
+
+  &.tooltip-left{
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%) translateX(-110%);
+
+    &::before{
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+
+  &.tooltip-right{
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%) translateX(110%);
+
+    &::before{
+      left: -5px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
+}

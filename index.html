@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedly tooltip</title>
+  <link rel="stylesheet" type="text/css" href="lib/prism/prism.css">
+  <link rel="stylesheet" type="text/css" href="css/app.css">
+</head>
+<body>
+  <header class="header wrapper">
+    <h1>Tooltip demo</h1>    
+  </header>
+  
+  <section id="content" class="content">
+    <div class="wrapper">
+      <h2>Example</h2>
+
+      <p>Lorem ipsum dolor <a href="#" class="tooltip" data-tp-position="bottom" data-tp-content="tooltip">sit amet</a>, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et <a href="#" class="tooltip" data-tp-position="left" data-tp-content="tooltip 2" data-tp-responsive="true">dolore magna</a> aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. <a href="#" class="tooltip" data-tp-position="top" data-tp-content="tooltip top de ouf" data-tp-responsive="true">Duis aute</a> irure dolor in reprehenderit in voluptate velit esse
+      cillum <a href="#" class="tooltip" data-tp-url="tooltip-content.html" >dolore eu</a> fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa <a href="#" class="tooltip" data-tp-position="top" data-tp-content="tooltip right">qui officia</a> deserunt mollit anim id est laborum.</p>
+      
+      <hr>
+
+      <h2>How it work</h2>
+
+      <p>To add tooltip on the link (or other element), add <code class="language-markup">.tooltip</code> on the element and call tooltip() function.</p>
+      
+      <pre class="language-markup"><code>&lt;a href="#" class="tootlip">My link&lt;/a></code></pre>
+      <pre class="language-javascript">
+<code>var tooltipDom = document.getElementsByClassName('tooltip');
+tooltip(tooltipDom);</code>        
+      </pre>
+
+      <h3>Add content</h3>
+      <p>To add content on tooltip, add <code class="language-markup">data-tp-content</code> attribut.</p>
+      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-content="My content">My link&lt;/a></code></pre>
+
+      <h3>Add content from an other file</h3>
+      <p>To add content form an other file on tooltip, just add <code class="language-markup">data-tp-url</code> attribut.</p>
+      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-url="tooltip-content.html">My link&lt;/a></code></pre>
+
+      <h3>Choose position</h3>
+      <p>You can place the tooltip on <b>Top</b>, <b>Bottom</b>, <b>Left</b> or <b>Right</b> side.</p>
+      <p>To do that, add <code class="language-markup">data-tp-position</code> attribut.</p>
+      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-position="right">My link&lt;/a></code></pre>
+      <p>By default, the tooltip is placed on the bottom.</p>
+
+      <h3>Enable responsive</h3>
+      <p>If the <code class="language-markup">data-tp-responsive</code> is true, the tooltip position is redifined if it's not fully visible.</p>
+      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-responsive="true" data-tp-position="right">My link&lt;/a></code></pre>
+      <p>Check this page in a small size to see en example.</p>
+    </div>
+  </section>
+
+  <footer class="footer wrapper">
+    <div class="footer-social">
+      <a href="#" class="tooltip" data-tp-content="osternaudClem" data-tp-position="top" data-tp-responsive="true">
+        <img src="images/social/github.svg">
+      </a>
+
+      <a href="#" class="tooltip" data-tp-content="@osternaud_clem" data-tp-position="top" data-tp-responsive="true">
+        <img src="images/social/twitter.svg">
+      </a>
+    </div>
+  </footer>
+
+  <script type="text/javascript" src="script/tooltip.js"></script>
+  <script type="text/javascript" src="script/script.js"></script>
+  <script type="text/javascript" src="lib/prism/prism.js"></script>
+</body>
+</html>
