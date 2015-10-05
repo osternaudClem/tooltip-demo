@@ -22,10 +22,10 @@ To add content on tooltip, add `data-tp-content` attribut.
 <a href="#" class="tootlip" data-tp-content="My content">My link</a>
 ```
 
-###Add asyncrhone content from an other file
-To add content form an other file on tooltip, just add `data-tp-url` attribut.
+###Call asyncrhone function to return content
+To call a function, just add, just add `data-tp-fct` attribut.
 ```html
-<a href="#" class="tootlip" data-tp-url="tooltip-content.html">My link</a>
+<a href="#" class="tootlip" data-tp-fct="getContent('my content')">My link</a>
 ```
 
 ###Choose position

@@ -22,17 +22,16 @@ function tooltip(element){
     if(fct){
       render.className = "tooltip-content tooltip-" + position + " tooltip-" + i;
       var regFindArgs = /\(([^)]+)\)/;
-      // var regRemoveQuote = /'[^'']*'/g;
+      var regRemoveQuote = /\'*/g;
       var fctArgs = regFindArgs.exec(fct)[1];
-      // fctArgs = regRemoveQuote.exec(fctArgs);
-      console.log(fctArgs);
+      fctArgs = fctArgs.replace(regRemoveQuote, '');
+      fctArgs = fctArgs.split(',');
       
       fct = fct.split('(');
       fctName = fct[0];
       
       callPromise(i, fctName, fctArgs);            
     }else{
-      console.log('No fonction')
       render.className = "tooltip-content tooltip-" + position;
       render.innerHTML = content;
     }
@@ -48,40 +47,12 @@ function tooltip(element){
   // Check position if responsive attribute is true and window is resized
   window.onresize = function(e) {        
     var elements = document.querySelectorAll('[data-tp-responsive]');
-    console.log(elements);
     for(i = 0; i < elements.length; i++){
       var el = elements[i];
       var position = el.dataset.tpPosition;
-      console.log(position);
       checkPosition(el, position);
     }
   }
-}
-
-/**
- * httpGet
- * @param  {string} theUrl 
- * @param  {dom element} el     
- * @param  {dom element} render 
- * @return {dom element} renderHtml
- */
-function httpGet(url, el, render){
-  var xmlHttp = null;
-  
-  xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", url, true );
-
-  xmlHttp.onload = function(e){
-    if (xmlHttp.readyState === 4){
-      if (xmlHttp.status === 200){        
-        render.innerHTML = xmlHttp.responseText;
-        el.appendChild(render);
-      } else {
-        console.error(xmlHttp.statusText);
-      }
-    }
-  };
-  xmlHttp.send( null );
 }
 
 /**
@@ -128,12 +99,14 @@ function checkPosition(el, position){
 
     case 'bottom':
     case 'top':
+      console.log(offset + obj.offsetWidth);
+      console.log(bodyWidth);
       if(eval(offset - obj.offsetWidth) < 0){
         obj.className = '';
         obj.className = 'tooltip-content tooltip-' + position + ' tooltip-marge-left';
       }
 
-      else if(eval(offset + obj.offsetWidth) > bodyWidth){
+      else if(eval(offset + obj.offsetWidth + 20) > bodyWidth){
         obj.className = '';
         obj.className = 'tooltip-content tooltip-' + position + ' tooltip-marge-right';
       }
@@ -146,6 +119,13 @@ function checkPosition(el, position){
   }
 } 
 
+
+/**
+ * Execute asynchrone function
+ * @param  {int} tooltip id
+ * @param  {string} fctName
+ * @param  {array} fctArgs
+ */
 function callPromise(id, fctName, fctArgs){
   promise = new Promise(function(resolve, reject) {
     window.setTimeout(function(){
