@@ -6,6 +6,13 @@
 function tooltip(element){
   for(i = 0; i < element.length; i++){
     var el = element[i];
+    // console.log(el);
+    if(el.lastElementChild){
+      if(el.lastElementChild.classList[0] == "tooltip-content"){
+        break;
+      }
+    }
+    
     var content = el.dataset.tpContent;
     var position = el.dataset.tpPosition;
     var responsive = el.dataset.tpResponsive;
@@ -18,25 +25,44 @@ function tooltip(element){
       position = 'bottom'
     }
 
+    render.className = "tooltip-content tooltip-" + position;
+
     // Check for asynchrone function
     if(fct){
-      render.className = "tooltip-content tooltip-" + position + " tooltip-" + i;
-      var regFindArgs = /\(([^)]+)\)/;
-      var regRemoveQuote = /\'*/g;
-      var fctArgs = regFindArgs.exec(fct)[1];
-      fctArgs = fctArgs.replace(regRemoveQuote, '');
-      fctArgs = fctArgs.split(',');
+      var id = 'tooltip';
+      if(el.hasAttribute('id')){
+        id += '-'+this.id;
+      }else{
+        id += '-'+i;
+      }
+
+      render.setAttribute('id', id);
+
+      addLoader(render);
       
-      fct = fct.split('(');
-      fctName = fct[0];
-      
-      callPromise(i, fctName, fctArgs);            
-    }else{
-      render.className = "tooltip-content tooltip-" + position;
+      el.addEventListener('mouseover', function(e){
+        var tooltipElem = e.target.firstElementChild;
+
+        if(tooltipElem.innerHTML == '' || tooltipElem.lastChild.className == 'tooltip-loader'){
+          var fct = e.target.dataset.tpFct;
+          var regFindArgs = /\(([^)]+)\)/;
+          var regRemoveQuote = /\'*/g;
+          var fctArgs = regFindArgs.exec(fct)[1];
+          fctArgs = fctArgs.replace(regRemoveQuote, '');
+          fctArgs = fctArgs.split(',');
+          
+          fct = fct.split('(');
+          fctName = fct[0];
+          
+          callPromise(tooltipElem, fctName, fctArgs); 
+        }
+      });
+
+    }else{      
       render.innerHTML = content;
     }
 
-    el.appendChild(render);
+    el.appendChild(render);    
 
     // Check position if responsive attribute is true
     if(responsive){
@@ -99,8 +125,6 @@ function checkPosition(el, position){
 
     case 'bottom':
     case 'top':
-      console.log(offset + obj.offsetWidth);
-      console.log(bodyWidth);
       if(eval(offset - obj.offsetWidth) < 0){
         obj.className = '';
         obj.className = 'tooltip-content tooltip-' + position + ' tooltip-marge-left';
@@ -126,17 +150,20 @@ function checkPosition(el, position){
  * @param  {string} fctName
  * @param  {array} fctArgs
  */
-function callPromise(id, fctName, fctArgs){
+function callPromise(tooltipElem, fctName, fctArgs){
   promise = new Promise(function(resolve, reject) {
     window.setTimeout(function(){
       resolve(window[fctName](fctArgs));
-    }, 1000);
+    }, 2000);
   });
 
   promise.then(function(result) {
-    tooltipElem = document.getElementsByClassName('tooltip-'+id);
-    tooltipElem[0].innerHTML = result;
+    tooltipElem.innerHTML = result;
   }, function(err) {
     console.log(err);
   });
+}
+
+function addLoader(el){
+  el.innerHTML = '<span class="tooltip-loader"><span></span><span></span><span></span></span>';
 }
