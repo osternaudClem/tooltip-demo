@@ -3,7 +3,10 @@
  */
 var tooltipDom = document.getElementsByClassName('tooltip');
 
-tooltip(tooltipDom);
+// tooltip(tooltipDom);
+tooltip = new Tooltip(tooltipDom);
+
+// tooltip.init(tooltipDom);
 
 function getContent(value){
   return "tooltip - " + value;
