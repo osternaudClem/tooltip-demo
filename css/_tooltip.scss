@@ -28,6 +28,11 @@
   max-width: none;
   min-width: 100px;
   min-height: 40px;
+  text-align: center;
+
+  &.block-content{
+    white-space: normal;
+  }
 
   &::before{
     content: "";

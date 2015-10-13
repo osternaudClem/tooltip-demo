@@ -4,15 +4,24 @@
  */
 
 var Tooltip = function(element, args){
+  // Default variables
   this.responsive =  true;
-  this.position = "bottom";
+  this.position   = "bottom";
 
+  /**
+   * Init
+   * Load function when Tooltip is call
+   */
   this.init = function(){
     this.checkArgs();
     this.createTootlip();
     this.responsive();
   }
 
+  /**
+   * Check Args
+   * Check if args exist and set value
+   */
   this.checkArgs = function(){
     if(args){
       if(args.responsive){
@@ -25,37 +34,63 @@ var Tooltip = function(element, args){
     }
   }
 
+  /**
+   * Create Tooltip
+   * Generate Tooltips
+   */
   this.createTootlip = function(){
     for(i = 0; i < element.length; i++){
       var position = this.position;
-      var el = element[i];
+      var el       = element[i];
       
+      // Check if position is set in the dom
       if(el.dataset.tpPosition){
         position = el.dataset.tpPosition;
       }
 
       var content = el.dataset.tpContent;
-      var render = document.createElement('span');
       var fct = el.dataset.tpFct;
 
+      // Create Tooltip Content
+      var render = document.createElement('span');
       render.className = "tooltip-content tooltip-" + position;
 
+      el.appendChild(render);
+      console.log(render.clientWidth);
+      if(el.dataset.tpWidth){
+        console.log(render.offsetWidth);
+        if(render.width > el.dataset.tpWidth){
+          // block-content
+          render.style.width = el.dataset.tpWidth+"px";
+          console.log(render);
+        }
+      }
+      // Check if a function is call
       if(fct){
         this.createTooltipAsync(el, render);
-      }else{        
-
+      }else{
         render.innerHTML = content;
-        el.appendChild(render);
+        
       }
     }
   }
 
-  this.createTooltipAsync = function(el, render){    
+  /**
+   * Create Tooltip Asynchrone
+   * @param  {dom} el     Parent element
+   * @param  {dom} render Render of Tooltip Content
+   */
+  this.createTooltipAsync = function(el, render){
+
+    // Display a loader    
+    // el.appendChild(render);
     this.loader(render);
-    el.appendChild(render);
-    
+
+    var that = this;
+
+    // Add mouse over event
     el.addEventListener('mouseover', function hover(e){
-      var tooltipElem = e.target.firstElementChild;
+      var tooltipElem = e.target.firstElementChild;      
       var fct = e.target.dataset.tpFct;
       var regFindArgs = /\(([^)]+)\)/;
       var regRemoveQuote = /\'*/g;
@@ -71,22 +106,33 @@ var Tooltip = function(element, args){
       fct = fct.split('(');
       fctName = fct[0];
           
-      callAsyncFunction(tooltipElem, fctName, fctArgs); 
+      that.callAsyncFunction(tooltipElem, fctName, fctArgs); 
 
+      // Remove the event for this element
       el.removeEventListener('mouseover', hover, true);
 
     }, true);
 
   }
 
+  /**
+   * Render loader for asynchrone tooltip content
+   * @param  {render} el
+   */
   this.loader = function(el){
     el.innerHTML = '<span class="tooltip-loader"><span></span><span></span><span></span></span>';
   } 
 
+  /**
+   * Responsive 
+   */
   this.responsive = function(){
+
     window.onresize = function(e) {
       // Get body width
       bodyWidth = document.body.offsetWidth;
+
+      // Check every tooltips position
       for(i = 0; i < element.length; i++){
         var position = this.position;
         var el = element[i];
@@ -106,8 +152,6 @@ var Tooltip = function(element, args){
 
         obj = el.getElementsByClassName('tooltip-content')[0];
 
-        // Get body width
-        bodyWidth = document.body.offsetWidth;
         // Depending the position, the tooltip is move if is not fully visible
         switch(position){
           case 'left':       
@@ -152,18 +196,15 @@ var Tooltip = function(element, args){
     }
   }
 
-  callAsyncFunction = function(tooltipElem, fctName, fctArgs){
-    promise = new Promise(function(resolve, reject) {
-      window.setTimeout(function(){
-        resolve(window[fctName](fctArgs));
-      }, 2000);
-    });
 
-    promise.then(function(result) {
+  this.callAsyncFunction = function(tooltipElem, fctName, fctArgs){
+    
+    window[fctName](fctArgs).then(function(result) {
       tooltipElem.innerHTML = result;
     }, function(err) {
       console.log(err);
     });  
+    
   }
 
   this.removeAll = function(){
