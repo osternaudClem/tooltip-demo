@@ -56,21 +56,13 @@ var Tooltip = function(element, args){
       render.className = "tooltip-content tooltip-" + position;
 
       el.appendChild(render);
-      console.log(render.clientWidth);
-      if(el.dataset.tpWidth){
-        console.log(render.offsetWidth);
-        if(render.width > el.dataset.tpWidth){
-          // block-content
-          render.style.width = el.dataset.tpWidth+"px";
-          console.log(render);
-        }
-      }
+
       // Check if a function is call
       if(fct){
         this.createTooltipAsync(el, render);
       }else{
         render.innerHTML = content;
-        
+        this.checkWidth(el, render);
       }
     }
   }
@@ -90,7 +82,7 @@ var Tooltip = function(element, args){
 
     // Add mouse over event
     el.addEventListener('mouseover', function hover(e){
-      var tooltipElem = e.target.firstElementChild;      
+      var tooltipElem = e.target.firstElementChild;
       var fct = e.target.dataset.tpFct;
       var regFindArgs = /\(([^)]+)\)/;
       var regRemoveQuote = /\'*/g;
@@ -106,13 +98,23 @@ var Tooltip = function(element, args){
       fct = fct.split('(');
       fctName = fct[0];
           
-      that.callAsyncFunction(tooltipElem, fctName, fctArgs); 
+      that.callAsyncFunction(el, tooltipElem, fctName, fctArgs);
 
       // Remove the event for this element
       el.removeEventListener('mouseover', hover, true);
 
     }, true);
 
+  }
+
+  this.checkWidth = function(el, render){
+
+    if(el.dataset.tpWidth){
+      if(render.offsetWidth > el.dataset.tpWidth){          
+        render.style.width = el.dataset.tpWidth+"px";
+        render.style.whiteSpace = 'normal';
+      }
+    }
   }
 
   /**
@@ -197,10 +199,12 @@ var Tooltip = function(element, args){
   }
 
 
-  this.callAsyncFunction = function(tooltipElem, fctName, fctArgs){
-    
+  this.callAsyncFunction = function(el, tooltipElem, fctName, fctArgs){
+    that = this;
+
     window[fctName](fctArgs).then(function(result) {
       tooltipElem.innerHTML = result;
+      that.checkWidth(el, tooltipElem);
     }, function(err) {
       console.log(err);
     });  
@@ -209,7 +213,11 @@ var Tooltip = function(element, args){
 
   this.removeAll = function(){
     for(i = 0; i < element.length; i++){
-      element[i].removeChild(element[i].lastChild);
+      var elem = element[i].getElementsByClassName('tooltip-content')[0];
+
+      if(elem){
+        element[i].removeChild(elem);
+      }
     }
   }
 

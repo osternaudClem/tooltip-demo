@@ -10,10 +10,20 @@ To add tooltip, add `.tooltip` on the element and call tooltip() function.
 ```
 
 ``` javascript
-var tooltipDom = document.getElementsByClassName('tooltip');
-tooltip(tooltipDom);
+var tooltipDom = document.getElementById('exemple-content').getElementsByClassName('tooltip');
+tooltip = new Tooltip(tooltipDom);
 ```
 
+###Some otpions
+You can configure if you want enable **responsive** and the default **tooltip position**.
+``` javascript
+tooltip = new Tooltip({
+  'responsive': true, // True / False
+  'position': 'top' // Top / Left / Bottom / Right
+});
+```
+
+By default, the position is set to **bottom**.
 
 ###Add content
 To add content on tooltip, add `data-tp-content` attribut.
@@ -36,12 +46,18 @@ To do that, add `data-tp-position` attribut.
 <a href="#" class="tootlip" data-tp-position="right">My link</a>
 ```
 
-By default, the tooltip is placed on the bottom.
-
-###Enable responsive
-If the `data-tp-responsive` is true, the tooltip position is redifined if it's not fully visible.
+###Add max with
+You add a ```max-width``` attribute for the tooltip render.
 ``` html
-<a href="#" class="tootlip" data-tp-responsive="true" data-tp-position="right">My link</a>
+<a href="#" class="tootlip" data-tp-width="300">My link</a>
 ```
 
-*Check this page in a small size to see en example.*
+##Methodes
+###Remove tooltip
+To remove tooltip, just call the ```removeAll()``` function.
+``` javascript
+tooltip.removeAll();
+```
+
+##To-Do
+- Load HTML templates

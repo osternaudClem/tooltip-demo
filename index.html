@@ -17,47 +17,58 @@
       <div id="exemple-content">
         <h2>Example</h2>
 
-        <p>Lorem ipsum dolor <a href="#" class="tooltip" data-tp-content="tooltip bottom">sit amet</a>, consectetur adipisicing elit, sed do eiusmod
+        <p>Lorem ipsum dolor <a href="#" class="tooltip" data-tp-content="Default tooltip">sit amet</a>, consectetur adipisicing elit, sed do eiusmod
         tempor incididunt ut labore et <a href="#" class="tooltip" data-tp-position="left" data-tp-content="tooltip left">dolore magna</a> aliqua. Ut enim ad minim veniam,
         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. <a href="#" class="tooltip" data-tp-position="top" data-tp-content="tooltip top more longer" data-tp-responsive="true">Duis aute</a> irure dolor in reprehenderit in voluptate velit esse
-        cillum <a href="#" class="tooltip" data-tp-fct="getContent('my content')" data-tp-width="300">dolore eu</a> fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa <a href="#" class="tooltip" data-tp-fct="getLol()" data-tp-position="right" data-tp-content="tooltip right">qui officia</a> deserunt mollit anim id est laborum.</p>
-
-
+        consequat. <a href="#" class="tooltip" data-tp-position="top" data-tp-content="tooltip top more longer">Duis aute</a> irure dolor in reprehenderit in voluptate velit esse
+        cillum <a href="#" class="tooltip" data-tp-fct="getContent()" data-tp-width="300">dolore eu</a> fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa <a href="#" class="tooltip" data-tp-content="Front End developer. Sass & Design lover. http://t.co/5CEEVBhjhu" data-tp-position="right" data-tp-width="300">qui officia</a> deserunt mollit anim id est laborum.</p>
       </div>
       
+      <div class="action">
+        <button class="btn" onclick="removeAll()">Remove all Tooltip</button>
+      </div>
+
       <hr>
 
       <h2>How it work</h2>
+      <p>To add tooltip, add <code>.tooltip</code> on the element and call tooltip() function.</p>
+      <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"tootlip"</span>&gt;</span>My link<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span>
+</code></pre>
+      <pre><code class="language-javascript"><span class="hljs-keyword">var</span> tooltipDom = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'exemple-content'</span>).getElementsByClassName(<span class="hljs-string">'tooltip'</span>);
+tooltip = <span class="hljs-keyword">new</span> Tooltip(tooltipDom);
+</code></pre>
+      <h3>Some otpions</h3>
+      <p>You can configure if you want enable <strong>responsive</strong> and the default <strong>tooltip position</strong>.</p>
+      <pre><code class="language-javascript">tooltip = <span class="hljs-keyword">new</span> Tooltip({
+  <span class="hljs-string">'responsive'</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// True / False</span>
+  <span class="hljs-string">'position'</span>: <span class="hljs-string">'top'</span> <span class="hljs-comment">// Top / Left / Bottom / Right</span>
+});</code></pre>
+    <p>By default, the position is set to <strong>bottom</strong>.</p>
+    <h3>Add content</h3>
+    <p>To add content on tooltip, add <code>data-tp-content</code> attribut.</p>
+    <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"tootlip"</span> <span class="hljs-attribute">data-tp-content</span>=<span class="hljs-value">"My content"</span>&gt;</span>My link<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span></code></pre>
+    <h3>Call asyncrhone function to return content</h3>
+    <p>To call a function, just add, just add <code>data-tp-fct</code> attribut.</p>
+    <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"tootlip"</span> <span class="hljs-attribute">data-tp-fct</span>=<span class="hljs-value">"getContent('my content')"</span>&gt;</span>My link<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span></code></pre>
+    <h3>Choose position</h3>
+    <p>You can place the tooltip on <strong>Top</strong>, <strong>Bottom</strong>, <strong>Left</strong> or <strong>Right</strong> side.
+      To do that, add <code>data-tp-position</code> attribut.</p>
+    <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-title">a</span> <span class="hljs-attribute">href</span>=<span class="hljs-value">"#"</span> <span class="hljs-attribute">class</span>=<span class="hljs-value">"tootlip"</span> <span class="hljs-attribute">data-tp-position</span>=<span class="hljs-value">"right"</span>&gt;</span>My link<span class="hljs-tag">&lt;/<span class="hljs-title">a</span>&gt;</span></code></pre>
 
-      <p>To add tooltip on the link (or other element), add <code class="language-markup">.tooltip</code> on the element and call tooltip() function.</p>
-      
-      <pre class="language-markup"><code>&lt;a href="#" class="tootlip">My link&lt;/a></code></pre>
-      <pre class="language-javascript">
-<code>var tooltipDom = document.getElementsByClassName('tooltip');
-tooltip(tooltipDom);</code>        
-      </pre>
+    <h3>Add max width</h3>
+    <p>You add a <code>max-width</code> attribute for the tooltip render.</p>
+    <pre class="language-markup">
+<code>&lt;a href="#" class="tootlip" data-tp-width="300">My link&lt;/a></code></pre>
 
-      <h3>Add content</h3>
-      <p>To add content on tooltip, add <code class="language-markup">data-tp-content</code> attribut.</p>
-      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-content="My content">My link&lt;/a></code></pre>
-
-      <h3>Call asyncrhone function to return content</h3>
-      <p>To call a function, just add <code class="language-markup">data-tp-fct</code> attribut.</p>
-      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-fct="getContent('my content')">My link&lt;/a></code></pre>
-
-      <h3>Choose position</h3>
-      <p>You can place the tooltip on <b>Top</b>, <b>Bottom</b>, <b>Left</b> or <b>Right</b> side.</p>
-      <p>To do that, add <code class="language-markup">data-tp-position</code> attribut.</p>
-      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-position="right">My link&lt;/a></code></pre>
-      <p>By default, the tooltip is placed on the bottom.</p>
-
-      <h3>Enable responsive</h3>
-      <p>If the <code class="language-markup">data-tp-responsive</code> is true, the tooltip position is redifined if it's not fully visible.</p>
-      <pre class="language-markup"><code>&lt;a href="#" class="tootlip" data-tp-responsive="true" data-tp-position="right">My link&lt;/a></code></pre>
-      <p>Check this page in a small size to see en example.</p>
-    </div>
+    <h2>Methodes</h2>
+    <h3>Remove tooltip</h3>
+    <p>To remove tooltip, just call the <code>removeAll()</code> function.</p>
+    <pre><code class="language-javascript">tooltip.removeAll();</code></pre>
+    <h2>To-Do</h2>
+    <ul>
+      <li>Load HTML templates</li>
+    </ul>
   </section>
 
   <footer class="footer wrapper">

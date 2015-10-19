@@ -59,6 +59,23 @@ hr {
   width: 700px;
   margin: 0 auto; }
 
+.btn {
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  border: 0;
+  background: #eb5055;
+  color: #fff;
+  padding: 0 20px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: .9em;
+  margin: 20px 0;
+  -webkit-transition: background .3s;
+          transition: background .3s; }
+  .btn:hover {
+    background: #e62229; }
+
 /*
  * Tooltip module
  */

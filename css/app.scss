@@ -79,6 +79,25 @@ hr{
   margin: 0 auto;
 }
 
+.btn{
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  border: 0;
+  background: #eb5055;
+  color: #fff;
+  padding: 0 20px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: .9em;
+  margin: 20px 0;
+  transition: background .3s;
+
+  &:hover{
+    background: darken(#eb5055, 10%);
+  }
+}
+
 @import "tooltip";
 
 @media screen and (max-width: 800px) {
