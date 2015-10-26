@@ -11,7 +11,7 @@ function getContent(value){
 
   promise = new Promise(function(resolve, reject) {
     xhr = new XMLHttpRequest();
-    xhr.open("GET", "http://api-dev.wesnipp.com/user/561ec02413de3c4e52c99235", true);
+    xhr.open("GET", "https://api.wesnipp.com/user/55e5a8fca908fbac28108638", true);
     xhr.send(null);
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4){
